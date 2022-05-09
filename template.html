@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" href="./styles.css" rel="stylesheet"/>
+    <style>
+      body {
+        padding: 0;
+      }
+
+      #scrolly {
+        position: relative;
+      }
+
+      .scrolly-overlay {
+        position: relative;
+        padding: 0;
+        max-width: 35rem;
+        margin: 0 auto;
+      }
+
+      .sticky-thing {
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        z-index: 0;
+        top: 0;
+        height: 100vh;
+        /* Center everything inside */
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .step {
+        margin: 0 auto 2rem auto;
+        margin-bottom: 25rem;
+        background-color: #eee;
+        background-color: #fff;
+        color: black;
+      }
+
+      .step p {
+        text-align: center;
+        padding: 1rem;
+        font-size: 1.25rem;
+      }
+
+      .hidden { visibility: hidden; }
+
+      /* When it's less than 700 pixels wide, do normal scrollytelling */
+      @media only screen and (min-width: 700px) {
+        #scrolly.side-by-side {
+          display: flex;
+        }
+
+        #scrolly.side-by-side > div {
+          flex-basis: 0;
+          flex-grow: 1;
+          flex-shrink: 1;
+          padding: 0.75em;
+        }
+
+        #scrolly.side-by-side .scrolly-overlay {
+          margin-top: 70vh;
+          order: 0;
+          /* Change these to adjust sizing options */
+          min-width: 15rem;
+          max-width: 20rem;
+        }
+
+        #scrolly.side-by-side .sticky-thing {
+          order: 1;
+          flex-grow: 2;
+        }
+      }
+
+      model-viewer {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+	<script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollama/3.0.4/scrollama.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.3.0/d3.min.js"></script>
+  <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+
+  </head>
+
+  <body>
+	<h1>3D model of American Airline's plane</h1>
+      <section id="scrolly">
+        <div class="sticky-thing">
+
+<!-- 3D stuff goes below this line -->
+
+
+<!-- <model-viewer> HTML element -->
+  <model-viewer bounds="tight" enable-pan src="model.glb" ar ar-modes="webxr scene-viewer quick-look" poster="poster.webp" shadow-intensity="1" environment-image="neutral">
+    <div class="progress-bar hide" slot="progress-bar">
+        <div class="update-bar"></div>
+    </div>
+    <button slot="ar-button" id="ar-button">
+        View in your space
+    </button>
+    <div id="ar-prompt">
+        <img src="ar_hand_prompt.png">
+    </div>
+    <button class="Hotspot" slot="hotspot-2" data-position="-0.4623207899583761m 11.933744900614968m -24.44140093489674m" data-normal="-0.9772906590730026m -0.05946497945586747m -0.20338850485455062m" data-visibility-attribute="visible" data-visible=""><div class="HotspotAnnotation"> Vertical stabilizer</div></button>
+
+    <button class="Hotspot" slot="hotspot-1" data-position="-0.8513648849937709m 3.1457274526861183m 13.67703474039952m" data-normal="-0.6210101473147752m 0.6346848400583415m 0.45991472115186605m" data-visibility-attribute="visible" data-visible=""><div class="HotspotAnnotation">Front of the airplane</div></button>
+
+    <button class="Hotspot" slot="hotspot-3" data-position="-18.057930920543154m 5.3493622663455165m -10.806726977262358m" data-normal="0.9778898887365352m 0.20641205203213306m -0.03354743332553158m" data-visibility-attribute="visible" data-visible=""><div class="HotspotAnnotation">Winglet</div></button>
+
+  </model-viewer>  
+  <script src="script.js"></script>
+  <!-- Loads <model-viewer> for browsers: -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 3D stuff goes above this line -->
+
+        </div>
+
+        <div class="scrolly-overlay">
+          <div class="step" id="step-one">
+            <p>This is the front of a airplane.</p>
+          </div>
+          <div class="step" id="step-two">
+            <p>This is a winglet. It helps with fuel efficiency by reducing the drag caused by airflow patterns.</p>
+          </div>
+          <div class="step" id="step-three">
+            <p>This is a vertical stabilizer. It provides stability for the plane to keep it flying straight. </p>
+          </div>
+          <div class="step" id="step-four">
+            <p>This's it! </p>
+          </div>
+        </div>
+      </section>
+
+      <script src="script.js"></script>
+      <!-- Loads <model-viewer> for browsers: -->
+      <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  
+    <script>
+      
+      /* Scrollytelling code goes under here */
+
+      var viewer = document.querySelector("model-viewer");
+
+      d3.select("#step-one").on('stepin', function() {
+        viewer.cameraTarget = "0m 0m 0m";
+        viewer.cameraOrbit = "45deg 45deg 80m";
+      })
+
+      d3.select("#step-two").on('stepin', function() {
+        viewer.cameraTarget = "0m 20m 0m";
+        viewer.cameraOrbit = "0deg 0deg 50m";
+      })
+
+
+      
+
+      d3.select("#step-three").on('stepin', function() {
+        viewer.cameraTarget = "-0.5090393280675374m 12.299208245056093m -23.86025412413515m";
+        viewer.cameraOrbit = "-90deg 0deg 50m";
+      })
+
+    </script>
+
+<script>
+    const scroller = scrollama();
+
+	scroller
+		.setup({
+			step: "#scrolly .scrolly-overlay .step",
+			offset: 0.75,
+			debug: false
+		})
+		.onStepEnter(function({ element, index, direction}) {
+			const event = new CustomEvent('stepin', { detail: { direction: direction } })
+			element.dispatchEvent(event);
+		})
+		.onStepExit(function({ element, index, direction }) {
+			const event = new CustomEvent('stepout', { detail: { direction: direction } })
+			element.dispatchEvent(event);
+		});
+
+    </script>
+
+
+<script type="text/javascript">
+  // your code goes in here 
+
+
+</script>
+
+  </body>
+</html>
