@@ -3,7 +3,6 @@
 
 
 - This is my very first attempt to create a scrollytelling story with 3D image
-- Sorry the article is not much contexts! 
 
 
 # Tech& Skill I used here
